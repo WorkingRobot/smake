@@ -1,6 +1,6 @@
 include_guard(GLOBAL)
 
-function(_get_git_info)
+function(s_get_git_info)
     execute_process(COMMAND git -C ${CMAKE_SOURCE_DIR} log --pretty=format:'%h' -n 1
                 OUTPUT_VARIABLE GIT_REVISION
                 ERROR_QUIET)
@@ -29,13 +29,13 @@ function(_get_git_info)
         string(STRIP "${GIT_BRANCH}" GIT_BRANCH)
     endif()
 
-    hoist_variable(GIT_BRANCH)
-    hoist_variable(GIT_REVISION)
-    hoist_variable(GIT_IS_MODIFIED)
+    s_hoist_variable(GIT_BRANCH)
+    s_hoist_variable(GIT_REVISION)
+    s_hoist_variable(GIT_IS_MODIFIED)
 endfunction()
 
-function(retrieve_version_info)
-    _get_git_info()
+function(s_retrieve_version_info)
+    s_get_git_info()
 
     set(PROJECT_VERSION_BRANCH ${GIT_BRANCH})
     set(PROJECT_VERSION_REVISION ${GIT_REVISION})
@@ -50,13 +50,13 @@ function(retrieve_version_info)
         set(PROJECT_VERSION_LONG ${PROJECT_VERSION_LONG}.dev)
     endif()
 
-    hoist_variable(PROJECT_VERSION_BRANCH)
-    hoist_variable(PROJECT_VERSION_REVISION)
-    hoist_variable(PROJECT_VERSION_IS_MODIFIED)
-    hoist_variable(PROJECT_VERSION_LONG)
+    s_hoist_variable(PROJECT_VERSION_BRANCH)
+    s_hoist_variable(PROJECT_VERSION_REVISION)
+    s_hoist_variable(PROJECT_VERSION_IS_MODIFIED)
+    s_hoist_variable(PROJECT_VERSION_LONG)
 endfunction()
 
-function(add_version_defs PATH)
+function(s_add_version_defs PATH)
     set_property(
         SOURCE ${PATH}
         APPEND
