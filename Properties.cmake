@@ -1,7 +1,7 @@
 include_guard(GLOBAL)
 
-function(s_set_cxx_standard)
-    set_target_properties(${S_CURRENT_PROJECT_SANITIZED_NAME} PROPERTIES CXX_STANDARD 23)
+function(s_set_cxx_standard STANDARD)
+    set_target_properties(${S_CURRENT_PROJECT_SANITIZED_NAME} PROPERTIES CXX_STANDARD ${STANDARD})
 endfunction()
 
 function(s_force_pdbs)
@@ -31,15 +31,15 @@ function(s_report_undefined_refs)
     set_target_properties(${S_CURRENT_PROJECT_SANITIZED_NAME} PROPERTIES LINK_OPTIONS "--no-undefined")
 endfunction()
 
-function(s_enable_clang_tidy)
-    set_target_properties(${S_CURRENT_PROJECT_SANITIZED_NAME} PROPERTIES CXX_CLANG_TIDY "clang-tidy")
-    set_target_properties(${S_CURRENT_PROJECT_SANITIZED_NAME} PROPERTIES C_CLANG_TIDY "clang-tidy")
+function(s_enable_clang_tidy TIDY_ARGS)
+    set_target_properties(${S_CURRENT_PROJECT_SANITIZED_NAME} PROPERTIES CXX_CLANG_TIDY ${TIDY_ARGS})
+    set_target_properties(${S_CURRENT_PROJECT_SANITIZED_NAME} PROPERTIES C_CLANG_TIDY ${TIDY_ARGS})
 endfunction()
 
 
 function(s_set_default_properties)
-    s_set_cxx_standard()
+    s_set_cxx_standard(23)
     s_force_pdbs()
     s_add_platform_macro()
-    s_enable_clang_tidy()
+    s_enable_clang_tidy("clang-tidy")
 endfunction()
