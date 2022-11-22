@@ -9,7 +9,7 @@ function(s_project_internal)
     s_sanitize_project_name(S_CURRENT_PROJECT_SANITIZED_NAME ${S_CURRENT_PROJECT_NAME})
     s_hoist_variable(S_CURRENT_PROJECT_SANITIZED_NAME)
 
-    include(Project${S_CURRENT_PROJECT_TYPE})
+    include("${CMAKE_CURRENT_FUNCTION_LIST_DIR}/Project${S_CURRENT_PROJECT_TYPE}.cmake")
 endfunction()
 
 macro(s_project NAME TYPE)
