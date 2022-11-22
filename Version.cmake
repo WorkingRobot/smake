@@ -60,12 +60,24 @@ function(s_get_vcpkg_manifest_info)
     s_hoist_variable(MANIFEST_JSON_VERSION)
 
     s_get_vcpkg_manifest_try_get(MANIFEST_JSON_DESCRIPTION "description")
-    if (NOT MANIFEST_JSON_DESCRIPTION MATCHES "NOTFOUND$")
-        s_hoist_variable(MANIFEST_JSON_DESCRIPTION)
+    if (MANIFEST_JSON_DESCRIPTION MATCHES "NOTFOUND$")
+        message(FATAL_ERROR "The vcpkg manifest does not have any attached description")
     endif()
+    s_hoist_variable(MANIFEST_JSON_DESCRIPTION)
 endfunction()
 
 function(s_get_version_info)
+    s_get_vcpkg_manifest_info()
+
+    set(PROJECT_NAME ${MANIFEST_JSON_NAME})
+    set(PROJECT_VERSION ${MANIFEST_JSON_VERSION})
+    set(PROJECT_DESCRIPTION ${MANIFEST_JSON_DESCRIPTION})
+
+    s_hoist_variable(PROJECT_NAME)
+    s_hoist_variable(PROJECT_VERSION)
+    s_hoist_variable(PROJECT_DESCRIPTION)
+
+
     s_get_git_info()
 
     set(PROJECT_VERSION_BRANCH ${GIT_BRANCH})
