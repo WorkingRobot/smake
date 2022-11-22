@@ -34,6 +34,29 @@ function(s_get_git_info)
     s_hoist_variable(GIT_IS_MODIFIED)
 endfunction()
 
+function(s_get_vcpkg_manifest_version_info MANIFEST_PROPERTY)
+    if ((NOT DEFINED MANIFEST_JSON_VERSION) OR (MANIFEST_JSON_VERSION MATCHES "NOTFOUND$"))
+        string(JSON MANIFEST_JSON_VERSION ERROR_VARIABLE MANIFEST_JSON_ERROR GET ${MANIFEST_JSON} ${MANIFEST_PROPERTY})
+    endif()
+    s_hoist_variable(MANIFEST_JSON_VERSION)
+endfunction()
+
+function(s_get_vcpkg_manifest_info)
+    file(READ ${CMAKE_SOURCE_DIR}/vcpkg.json MANIFEST_JSON)
+
+    string(JSON MANIFEST_JSON_NAME GET ${MANIFEST_JSON} "name")
+
+    s_get_vcpkg_manifest_version_info("version")
+    s_get_vcpkg_manifest_version_info("version-semver")
+    s_get_vcpkg_manifest_version_info("version-date")
+    s_get_vcpkg_manifest_version_info("version-string")
+    if (MANIFEST_JSON_VERSION MATCHES "NOTFOUND$")
+        message(FATAL_ERROR "The vcpkg manifest does not have any attached version information")
+    endif()
+
+    message(STATUS "${MANIFEST_JSON_NAME} - ${MANIFEST_JSON_VERSION}")
+endfunction()
+
 function(s_retrieve_version_info)
     s_get_git_info()
 
