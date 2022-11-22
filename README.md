@@ -123,8 +123,8 @@ cmake_minimum_required(VERSION 3.20)
 include(FetchContent)
 FetchContent_Declare(
   smake
-  GIT_REPOSITORY https://git.camora.dev/asriel/smake.git
-  GIT_TAG        v1
+  GIT_REPOSITORY https://github.com/WorkingRobot/smake.git
+  GIT_TAG        v2
 )
 FetchContent_MakeAvailable(smake)
 include(${smake_SOURCE_DIR}/smake.cmake)
