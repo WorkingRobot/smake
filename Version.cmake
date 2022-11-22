@@ -1,5 +1,23 @@
 include_guard(GLOBAL)
 
+function(s_get_git_default_branch)
+    execute_process(COMMAND git -C ${CMAKE_SOURCE_DIR} remote 
+                    OUTPUT_VARIABLE GIT_REMOTE_NAME
+                    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+    execute_process(COMMAND git -C ${CMAKE_SOURCE_DIR} remote show ${GIT_REMOTE_NAME}
+                    OUTPUT_VARIABLE GIT_REMOTE_DATA
+                    ERROR_QUIET)
+    string(REGEX MATCH "HEAD branch: ([^\n]+)" GIT_REMOTE_BRANCH ${GIT_REMOTE_DATA})
+
+    if (NOT CMAKE_MATCH_1)
+        message(FATAL_ERROR "Could not retrieve default branch")
+    endif()
+
+    set(GIT_DEFAULT_BRANCH ${CMAKE_MATCH_1})
+    s_hoist_variable(GIT_DEFAULT_BRANCH)
+endfunction()
+
 function(s_get_git_info)
     execute_process(COMMAND git -C ${CMAKE_SOURCE_DIR} log --pretty=format:'%h' -n 1
                 OUTPUT_VARIABLE GIT_REVISION
