@@ -4,7 +4,7 @@ function(s_define_project_internal)
     endif()
 
     add_library(${S_CURRENT_PROJECT_SANITIZED_NAME} INTERFACE)
-    target_include_directories(${S_CURRENT_PROJECT_SANITIZED_NAME} INTERFACE .)
+    target_include_directories(${S_CURRENT_PROJECT_SANITIZED_NAME} INTERFACE ${S_CURRENT_PROJECT_INCLUDED_LOCATION})
 endfunction()
 
 function(s_define_project_alias_internal)

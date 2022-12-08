@@ -16,7 +16,7 @@ macro(s_project NAME TYPE)
     set(S_CURRENT_PROJECT_NAME ${NAME})
     set(S_CURRENT_PROJECT_TYPE ${TYPE})
 
-    cmake_parse_arguments(S_CURRENT_PROJECT "IS_SIMPLE;IS_DISABLED" "IMPORTED_LOCATION" "PLATFORMS" ${ARGN})
+    cmake_parse_arguments(S_CURRENT_PROJECT "IS_SIMPLE;IS_DISABLED" "IMPORTED_LOCATION;INCLUDED_LOCATION" "PLATFORMS" ${ARGN})
 
     if (S_CURRENT_PROJECT_IS_DISABLED)
         message("Not building ${S_CURRENT_PROJECT_NAME} because it's disabled")
@@ -28,6 +28,10 @@ macro(s_project NAME TYPE)
             message("Not building ${S_CURRENT_PROJECT_NAME} because it's unsupported (only for ${S_CURRENT_PROJECT_PLATFORMS})")
             return()
         endif()
+    endif()
+
+    if (NOT S_CURRENT_PROJECT_INCLUDED_LOCATION)
+        set(S_CURRENT_PROJECT_INCLUDED_LOCATION .)
     endif()
 
     s_project_internal()

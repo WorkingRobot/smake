@@ -1,6 +1,6 @@
-function(S_define_project_internal)
+function(s_define_project_internal)
     add_library(${S_CURRENT_PROJECT_SANITIZED_NAME} STATIC ${S_CURRENT_PROJECT_SOURCES})
-    target_include_directories(${S_CURRENT_PROJECT_SANITIZED_NAME} INTERFACE .)
+    target_include_directories(${S_CURRENT_PROJECT_SANITIZED_NAME} INTERFACE ${S_CURRENT_PROJECT_INCLUDED_LOCATION})
 
     s_set_default_properties()
 endfunction()
