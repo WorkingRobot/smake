@@ -26,6 +26,25 @@ function(s_add_subdirectories_in PATH)
     endforeach()
 endfunction()
 
+set_property(GLOBAL PROPERTY S_IMPORT_SHARED_LIBS)
+function(s_add_dll_copying)
+    if(PROJECT_PLATFORM STREQUAL "win")
+        get_property(SHARED_LIBS GLOBAL PROPERTY S_IMPORT_SHARED_LIBS)
+        foreach(SHARED_LIB ${SHARED_LIBS})
+            get_property(SHARED_IMPLIB TARGET ${SHARED_LIB} PROPERTY IMPORTED_LOCATION)
+            if (SHARED_IMPLIB)
+                list(APPEND SHARED_IMPLIBS ${SHARED_IMPLIB})
+            endif()
+        endforeach()
+        add_custom_command(TARGET "${S_CURRENT_PROJECT_SANITIZED_NAME}" POST_BUILD
+                COMMAND "${CMAKE_COMMAND}"
+                    "-DBINARY_FILE=$<TARGET_FILE:${S_CURRENT_PROJECT_SANITIZED_NAME}>"
+                    "-DSHARED_LIBS=${SHARED_IMPLIBS}"
+                    -P "${CMAKE_CURRENT_LIST_DIR}/CopySharedDlls.cmake"
+                VERBATIM)
+    endif()
+endfunction()
+
 function(s_get_platform_identifier VARIABLE)
     # Taken from https://github.com/microsoft/vcpkg/blob/9259a0719d94c402aae2ab7975bc096afdec15df/scripts/buildsystems/vcpkg.cmake#L332
     if (NOT CMAKE_SYSTEM_NAME)

@@ -2,6 +2,7 @@ function(s_define_project_internal)
     add_library(${S_CURRENT_PROJECT_SANITIZED_NAME} MODULE ${S_CURRENT_PROJECT_SOURCES})
 
     s_set_default_properties()
+    s_add_dll_copying()
 endfunction()
 
 function(s_define_project_alias_internal)
