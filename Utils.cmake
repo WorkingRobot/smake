@@ -40,7 +40,7 @@ function(s_add_dll_copying)
                 COMMAND "${CMAKE_COMMAND}"
                     "-DBINARY_FILE=$<TARGET_FILE:${S_CURRENT_PROJECT_SANITIZED_NAME}>"
                     "-DSHARED_LIBS=${SHARED_IMPLIBS}"
-                    -P "${CMAKE_CURRENT_LIST_DIR}/CopySharedDlls.cmake"
+                    -P "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CopySharedDlls.cmake"
                 VERBATIM)
     endif()
 endfunction()
