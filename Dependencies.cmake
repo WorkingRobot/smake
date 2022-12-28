@@ -3,7 +3,7 @@ include_guard(GLOBAL)
 function(s_add_dependency_pkgconfig NAME)
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(PKGCONFIG_LIB REQUIRED ${NAME})
-    target_link_libraries(${S_CURRENT_PROJECT_SANITIZED_NAME} ${VISIBILITY} ${PKGCONFIG_LIB_LIBRARIES})
+    target_link_libraries(${S_CURRENT_PROJECT_SANITIZED_NAME} ${VISIBILITY} ${PKGCONFIG_LIB_LINK_LIBRARIES})
     target_include_directories(${S_CURRENT_PROJECT_SANITIZED_NAME} ${VISIBILITY} ${PKGCONFIG_LIB_INCLUDE_DIRS})
 endfunction()
 
@@ -53,5 +53,13 @@ function(s_dependency_date)
 endfunction()
 
 function(s_dependency_OpenSSL)
-    s_add_dependency_findpkg(OpenSSL LIBS OpenSSL::Crypto)
+    s_add_dependency_findpkg(OpenSSL LIBS OpenSSL::SSL OpenSSL::Crypto)
+endfunction()
+
+function(s_dependency_gtkmm)
+    s_add_dependency_pkgconfig(gtkmm-4.0)
+endfunction()
+
+function(s_dependency_giomm)
+    s_add_dependency_pkgconfig(giomm-2.68)
 endfunction()
