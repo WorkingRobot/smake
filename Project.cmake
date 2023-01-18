@@ -72,3 +72,15 @@ endfunction()
 function(s_compile_definitions)
     target_compile_definitions(${S_CURRENT_PROJECT_SANITIZED_NAME} ${ARGV})
 endfunction()
+
+function(s_compile_options)
+    target_compile_options(${S_CURRENT_PROJECT_SANITIZED_NAME} ${ARGV})
+endfunction()
+
+function(s_include_directories)
+    target_include_directories(${S_CURRENT_PROJECT_SANITIZED_NAME} ${ARGV})
+endfunction()
+
+function(s_set_properties)
+    set_target_properties(${S_CURRENT_PROJECT_SANITIZED_NAME} ${ARGV})
+endfunction()
