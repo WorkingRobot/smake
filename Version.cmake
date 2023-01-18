@@ -60,7 +60,12 @@ function(s_get_vcpkg_manifest_try_get VARIABLE MANIFEST_PROPERTY)
 endfunction()
 
 function(s_get_vcpkg_manifest_info)
-    file(READ ${VCPKG_MANIFEST_DIR}/vcpkg.json MANIFEST_JSON)
+    if(NOT VCPKG_MANIFEST_DIR)
+        set(JSON_FILE_PATH ${CMAKE_SOURCE_DIR}/vcpkg.json)
+    else()
+        set(JSON_FILE_PATH ${VCPKG_MANIFEST_DIR}/vcpkg.json)
+    endif()
+    file(READ ${JSON_FILE_PATH} MANIFEST_JSON)
 
     s_get_vcpkg_manifest_try_get(MANIFEST_JSON_NAME "name")
     if (NOT MANIFEST_JSON_NAME)
